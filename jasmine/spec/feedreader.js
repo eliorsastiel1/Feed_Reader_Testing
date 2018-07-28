@@ -92,7 +92,7 @@ $(function() {
 
         it('there is at least a single .entry element within the .feed container.', function(done){
             var entries = $('.entry');
-            expect(entries.length).toBeGreaterThan(0);
+            expect(entries.length).not.toEqual(0);
             done();
         })
 
@@ -103,7 +103,7 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        var container = $('.feed'),
+        var feed = $('.feed'),
         First,
         Second;
     /* A test that ensures when a new feed is loaded
@@ -111,15 +111,18 @@ $(function() {
      */
     beforeEach(function (done) {
         loadFeed(0, function () {
-            First = container.html();
+            debugger;
+            First = feed.html();
             loadFeed(1, function () {
-                Second = container.html();
+                debugger;
+                Second = feed.html();
                 done();
             });
         });
     });
 
     it('changes the content when a new feed is loaded', function () {
+       debugger;
         expect(First).not.toEqual(Second);
     });
 
