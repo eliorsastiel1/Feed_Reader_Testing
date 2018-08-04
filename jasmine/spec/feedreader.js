@@ -75,7 +75,7 @@ $(function() {
             menuIcon.trigger('click');
             expect(body.hasClass('menu-hidden')).toBe(false);
             menuIcon.trigger('click');
-            expect(body.hasClass('menu-hidden')).toBeTruthy(true);
+            expect(body.hasClass('menu-hidden')).toBe(true);
           })
 	});
     /*  test suite named "Initial Entries" */
@@ -87,18 +87,15 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         beforeEach(function(done){
-            loadFeed(1,done)
+            loadFeed(1,function(){
+                done();
+            });         
         });
 
         it('there is at least a single .entry element within the .feed container.', function(done){
-            var entries = $('.entry');
-            if(entries.parent('feed')){
-                expect(entries.length).not.toEqual(0);
-            }
-            else {
-                throw Error('there isn\'t at least a single .entry element within the .feed container');
-            }
-            
+            var entries = $('.feed .entry');
+            expect(entries.length).not.toEqual(0);
+            done();
         })
 
 	});
@@ -109,23 +106,23 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
         var feed = $('.feed'),
-        First,
-        Second;
+        first,
+        second;
     /* A test that ensures when a new feed is loaded
      * by the loadFeed function that the content actually changes.
      */
     beforeEach(function (done) {
         loadFeed(0, function () {
-            First = feed.html();
+            first = feed.html();
             loadFeed(1, function () {
-                Second = feed.html();
+                second = feed.html();
                 done();
             });
         });
     });
 
     it('changes the content when a new feed is loaded', function () {
-        expect(First).not.toEqual(Second);
+        expect(first).not.toEqual(second);
     });
 
 	});
